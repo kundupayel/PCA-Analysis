@@ -1,0 +1,53 @@
+---
+title: "PCA TBI data"
+author: "Payel Kundu"
+date: "5/19/2020"
+output: word_document
+---
+First I'll import the data
+```{r}
+setwd("C:/Users/kundu/Desktop")
+library(readxl)
+TBIdata <- read_excel("PCA5.19.2020.xlsx")
+colnames(TBIdata)
+
+```
+
+Next I'll run a PCA
+```{r}
+PCA.TBI <- prcomp(TBIdata[,c(5:17)], center = TRUE,scale. = TRUE)
+summary(PCA.TBI)
+```
+
+Now I'll make a plot to visualize the results. This plots the first principle component against the second principle component. 
+
+```{r}
+library(devtools)
+library(ggbiplot)
+par(mfrow=c(1, 2))  
+ggbiplot(PCA.TBI, group=TBIdata$Genotype)
+ggbiplot(PCA.TBI, group=TBIdata$TBI.Sham)
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+```{r}
+library(ggfortify)
+TBIdata$Genotype <- as.factor(TBIdata$Genotype)
+autoplot(PCA.TBI, data=TBIdata, loadings = TRUE,loadings.label = TRUE, loadings.label.size = 4,loadings.label.repel=TRUE, color="Genotype")
+
+```
+
+
+```
+
